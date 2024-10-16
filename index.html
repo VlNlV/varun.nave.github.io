@@ -1,12 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My GitHub Pages Site</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>My Cool Website</title>
+  
+  <!-- Link to external stylesheets for font and icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f4f8;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #3498db;
+      padding: 20px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .navbar a {
+      color: white;
+      margin: 0 15px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      background-image: url('https://www.w3schools.com/w3images/forest.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .hero h1 {
+      font-size: 50px;
+      font-weight: 600;
+    }
+
+    .hero p {
+      font-size: 20px;
+      max-width: 600px;
+      margin: 10px 0;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      background-color: #e67e22;
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #d35400;
+    }
+
+    /* About Section */
+    .about {
+      padding: 60px 20px;
+      background-color: #ecf0f1;
+      text-align: center;
+    }
+
+    .about h2 {
+      font-size: 40px;
+      margin-bottom: 20px;
+      color: #3498db;
+    }
+
+    .about p {
+      font-size: 18px;
+      color: #2c3e50;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Footer */
+    .footer {
+      background-color: #34495e;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .footer i {
+      margin-right: 10px;
+    }
+
+    .footer a {
+      color: #ecf0f1;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 40px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .about h2 {
+        font-size: 30px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h1>Welcome to My GitHub Website</h1>
-    <p>This is my first website hosted on GitHub Pages.</p>
+
+  <!-- Navigation Bar -->
+  <div class="navbar">
+    <div class="logo">
+      <h2>MyCoolSite</h2>
+    </div>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <h1>Welcome to My Cool Website</h1>
+    <p>Your adventure starts here. Explore amazing content, stay inspired, and enjoy the journey.</p>
+    <button class="btn">Get Started</button>
+  </div>
+
+  <!-- About Section -->
+  <div class="about">
+    <h2>About Us</h2>
+    <p>We are passionate about creating engaging and beautiful websites that make an impact. Our mission is to provide the best user experience possible while delivering the most useful and creative content. Join us on this amazing journey and explore the world of possibilities!</p>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>&copy; 2024 MyCoolSite. All rights reserved.</p>
+    <p>
+      <a href="#"><i class="fab fa-facebook"></i> Facebook</a> | 
+      <a href="#"><i class="fab fa-twitter"></i> Twitter</a> | 
+      <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+    </p>
+  </div>
+
 </body>
 </html>
