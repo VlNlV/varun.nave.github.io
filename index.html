@@ -1,182 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>My Cool Website</title>
-  
-  <!-- Link to external stylesheets for font and icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Cool Website</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Body and Background */
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #3498db, #9b59b6);
+            overflow: hidden;
+        }
 
-  <style>
-    /* General Styles */
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f0f4f8;
-    }
+        /* Container for the elements */
+        .container {
+            text-align: center;
+            color: white;
+        }
 
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
+        /* Title Styling */
+        h1 {
+            font-size: 4em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: titleAnimation 2s ease-out;
+        }
 
-    /* Navigation Bar */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #3498db;
-      padding: 20px;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-    }
+        /* Hover effect on title */
+        h1:hover {
+            color: #f39c12;
+            transform: scale(1.1);
+        }
 
-    .navbar a {
-      color: white;
-      margin: 0 15px;
-      font-size: 18px;
-      font-weight: 600;
-    }
+        /* Animation for title */
+        @keyframes titleAnimation {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    /* Hero Section */
-    .hero {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background-color: #2c3e50;
-      color: white;
-      text-align: center;
-      background-image: url('https://www.w3schools.com/w3images/forest.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
+        /* Interactive button */
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #2ecc71;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: transform 0.3s, background-color 0.3s;
+        }
 
-    .hero h1 {
-      font-size: 50px;
-      font-weight: 600;
-    }
+        /* Button Hover Effects */
+        .btn:hover {
+            background-color: #27ae60;
+            transform: scale(1.1);
+        }
 
-    .hero p {
-      font-size: 20px;
-      max-width: 600px;
-      margin: 10px 0;
-    }
+        /* Animated Background Circles */
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            animation: circleAnimation 5s ease-in-out infinite;
+            opacity: 0.2;
+        }
 
-    .btn {
-      padding: 12px 20px;
-      background-color: #e67e22;
-      color: white;
-      font-size: 18px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      text-transform: uppercase;
-      font-weight: bold;
-      transition: background-color 0.3s;
-    }
+        @keyframes circleAnimation {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(0);
+            }
+        }
 
-    .btn:hover {
-      background-color: #d35400;
-    }
+        .circle1 {
+            background-color: rgba(255, 255, 255, 0.4);
+            width: 200px;
+            height: 200px;
+            animation-delay: 0s;
+        }
 
-    /* About Section */
-    .about {
-      padding: 60px 20px;
-      background-color: #ecf0f1;
-      text-align: center;
-    }
+        .circle2 {
+            background-color: rgba(255, 255, 255, 0.4);
+            width: 300px;
+            height: 300px;
+            animation-delay: 2.5s;
+        }
 
-    .about h2 {
-      font-size: 40px;
-      margin-bottom: 20px;
-      color: #3498db;
-    }
-
-    .about p {
-      font-size: 18px;
-      color: #2c3e50;
-      line-height: 1.6;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    /* Footer */
-    .footer {
-      background-color: #34495e;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .footer i {
-      margin-right: 10px;
-    }
-
-    .footer a {
-      color: #ecf0f1;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 40px;
-      }
-
-      .hero p {
-        font-size: 16px;
-      }
-
-      .about h2 {
-        font-size: 30px;
-      }
-    }
-  </style>
+        .circle3 {
+            background-color: rgba(255, 255, 255, 0.4);
+            width: 400px;
+            height: 400px;
+            animation-delay: 4s;
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Navigation Bar -->
-  <div class="navbar">
-    <div class="logo">
-      <h2>MyCoolSite</h2>
+    <!-- Main Content Container -->
+    <div class="container">
+        <h1>Welcome to Our Cool Website!</h1>
+        <button class="btn" onclick="showMessage()">Click Me</button>
+        <div id="message" style="display:none; margin-top: 20px; font-size: 1.5em;">Thanks for clicking!</div>
     </div>
-    <div class="nav-links">
-      <a href="#">Home</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
-    </div>
-  </div>
 
-  <!-- Hero Section -->
-  <div class="hero">
-    <h1>Welcome to My Cool Website</h1>
-    <p>Your adventure starts here. Explore amazing content, stay inspired, and enjoy the journey.</p>
-    <button class="btn">Get Started</button>
-  </div>
+    <!-- Animated Background Circles -->
+    <div class="circle circle1"></div>
+    <div class="circle circle2"></div>
+    <div class="circle circle3"></div>
 
-  <!-- About Section -->
-  <div class="about">
-    <h2>About Us</h2>
-    <p>We are passionate about creating engaging and beautiful websites that make an impact. Our mission is to provide the best user experience possible while delivering the most useful and creative content. Join us on this amazing journey and explore the world of possibilities!</p>
-  </div>
+    <script>
+        // Function for showing the message when button is clicked
+        function showMessage() {
+            var messageElement = document.getElementById('message');
+            messageElement.style.display = 'block';
+        }
 
-  <!-- Footer -->
-  <div class="footer">
-    <p>&copy; 2024 MyCoolSite. All rights reserved.</p>
-    <p>
-      <a href="#"><i class="fab fa-facebook"></i> Facebook</a> | 
-      <a href="#"><i class="fab fa-twitter"></i> Twitter</a> | 
-      <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
-    </p>
-  </div>
+        // Make circles animate randomly within the screen
+        function animateCircles() {
+            const circles = document.querySelectorAll('.circle');
+            circles.forEach(circle => {
+                let maxWidth = window.innerWidth;
+                let maxHeight = window.innerHeight;
+                let randomX = Math.random() * maxWidth;
+                let randomY = Math.random() * maxHeight;
+
+                // Apply random position to the circles
+                circle.style.left = `${randomX}px`;
+                circle.style.top = `${randomY}px`;
+            });
+        }
+
+        // Trigger the circle animation every few seconds
+        setInterval(animateCircles, 5000);
+    </script>
 
 </body>
 </html>
