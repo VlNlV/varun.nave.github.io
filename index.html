@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator Game</title>
+    <title>Calculator Roulette</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -59,6 +59,19 @@
             color: red;
             font-weight: bold;
         }
+
+        #operation-animation {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 20px;
+            display: none;
+            transition: all 0.5s ease-in-out;
+        }
+
+        #game-over-screen {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -73,11 +86,12 @@
         </div>
         <div id="game-play" style="display:none;">
             <p id="question">Starting game...</p>
+            <p id="operation-animation"></p>
             <input type="number" id="nextNumber" placeholder="Enter number">
             <br>
             <button onclick="playGame()">Submit</button>
         </div>
-        <div id="game-over" style="display:none;"></div>
+        <div id="game-over-screen" style="display:none;"></div>
     </div>
 
     <script>
@@ -89,8 +103,8 @@
             num2 = parseFloat(document.getElementById("num2").value);
 
             // Check if valid numbers are entered
-            if (isNaN(num1) || isNaN(num2)) {
-                alert("Please enter valid numbers!");
+            if (isNaN(num1) || isNaN(num2) || num1 <= 0 || num2 <= 0) {
+                alert("Please enter valid numbers larger than 0!");
                 return;
             }
 
@@ -108,6 +122,9 @@
             const randomOperation = operations[Math.floor(Math.random() * operations.length)];
 
             let product;
+            let resultText = `Operation: ${num1} ${randomOperation} ${num2} = `;
+
+            // Perform the operation
             switch (randomOperation) {
                 case '+':
                     product = num1 + num2;
@@ -119,23 +136,31 @@
                     product = num1 * num2;
                     break;
                 case '/':
-                    if (num2 === 0) {
-                        product = Infinity; // Avoid division by zero
-                    } else {
-                        product = num1 / num2;
+                    // For division, round the result to the nearest whole number
+                    product = num1 / num2;
+                    if (!Number.isInteger(product)) {
+                        product = Math.round(product);
                     }
                     break;
             }
 
-            // Show operation and result
-            currentResult = product;
-            document.getElementById("question").innerText = `Operation: ${num1} ${randomOperation} ${num2} = ${product}. Enter another number:`;
+            // Show operation animation
+            document.getElementById("operation-animation").innerText = `Calculating... ${randomOperation}`;
+            document.getElementById("operation-animation").style.display = "block";
+            
+            setTimeout(function() {
+                // Hide animation and display the result
+                document.getElementById("operation-animation").style.display = "none";
+                currentResult = product;
 
-            // Check if result is <= 0 (Game Over condition)
-            if (currentResult <= 0) {
-                gameOver = true;
-                gameOverScreen();
-            }
+                // Check if result is <= 0 or invalid, trigger game over
+                if (currentResult <= 0 || isNaN(currentResult) || currentResult === Infinity) {
+                    gameOver = true;
+                    gameOverScreen();
+                } else {
+                    document.getElementById("question").innerText = `${resultText}${product}. Enter another number:`;
+                }
+            }, 1000); // Display the animation for 1 second before showing the result
         }
 
         function playGame() {
@@ -143,9 +168,10 @@
 
             const nextNumber = parseFloat(document.getElementById("nextNumber").value);
 
-            // Check if valid number is entered
-            if (isNaN(nextNumber)) {
-                alert("Please enter a valid number!");
+            // Check if valid number is entered (no negative numbers, NaN, irrational fractions)
+            if (isNaN(nextNumber) || nextNumber <= 0 || !Number.isInteger(nextNumber)) {
+                gameOver = true;
+                gameOverScreen();
                 return;
             }
 
@@ -160,8 +186,8 @@
         function gameOverScreen() {
             // Hide the game play area and show game over message
             document.getElementById("game-play").style.display = "none";
-            document.getElementById("game-over").style.display = "block";
-            document.getElementById("game-over").innerText = `Game Over! Your final result was: ${currentResult}`;
+            document.getElementById("game-over-screen").style.display = "block";
+            document.getElementById("game-over-screen").innerText = `bruh gimme whole numbers larger than 0. Final result: ${currentResult}`;
         }
     </script>
 </body>
