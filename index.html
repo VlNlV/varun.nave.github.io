@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator Roulette</title>
+    <title>Calculator Game</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -137,9 +137,14 @@
                     break;
                 case '/':
                     // For division, round the result to the nearest whole number
-                    product = num1 / num2;
-                    if (!Number.isInteger(product)) {
-                        product = Math.round(product);
+                    if (num2 === 0) {
+                        product = NaN;  // Handle division by zero
+                    } else {
+                        product = num1 / num2;
+                        // If the result has decimals, round it to the nearest integer
+                        if (product % 1 !== 0) {
+                            product = Math.round(product);
+                        }
                     }
                     break;
             }
@@ -159,6 +164,7 @@
                     gameOverScreen();
                 } else {
                     document.getElementById("question").innerText = `${resultText}${product}. Enter another number:`;
+                    document.getElementById("nextNumber").value = '';  // Clear input field
                 }
             }, 1000); // Display the animation for 1 second before showing the result
         }
