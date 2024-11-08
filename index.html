@@ -3,15 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Minecraft-like Game</title>
+    <title>Simple Addition Calculator</title>
     <style>
-        body { margin: 0; }
-        canvas { display: block; }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+
+        .calculator {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            text-align: center;
+        }
+
+        input {
+            width: 60px;
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="game.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/controls/OrbitControls.js"></script>
+    <div class="calculator">
+        <h2>Simple Addition</h2>
+        <input type="number" id="num1" placeholder="0">
+        +
+        <input type="number" id="num2" placeholder="0">
+        <br>
+        <button onclick="calculate()">Add</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function calculate() {
+            // Get values from input fields
+            var num1 = parseFloat(document.getElementById("num1").value);
+            var num2 = parseFloat(document.getElementById("num2").value);
+
+            // Perform addition
+            var sum = num1 + num2;
+
+            // Display result
+            document.getElementById("result").innerHTML = "Result: " + sum;
+        }
+    </script>
 </body>
 </html>
