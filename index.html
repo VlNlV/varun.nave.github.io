@@ -3,198 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator Game</title>
+    <title>3D Car Game</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f9;
-        }
-
-        .game-container {
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
-        }
-
-        input {
-            width: 100px;
-            padding: 10px;
-            margin: 5px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        button {
-            padding: 10px;
-            font-size: 18px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            margin: 10px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        #result {
-            font-size: 24px;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-
-        #game-over {
-            font-size: 24px;
-            color: red;
-            font-weight: bold;
-        }
-
-        #operation-animation {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            margin-top: 20px;
-            display: none;
-            transition: all 0.5s ease-in-out;
-        }
-
-        #game-over-screen {
-            display: none;
-        }
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
-    <div class="game-container">
-        <h2>Calculator Game</h2>
-        <div id="start-game">
-            <p>Enter two numbers:</p>
-            <input type="number" id="num1" placeholder="Number 1">
-            <input type="number" id="num2" placeholder="Number 2">
-            <br>
-            <button onclick="startGame()">Start Game</button>
-        </div>
-        <div id="game-play" style="display:none;">
-            <p id="question">Starting game...</p>
-            <p id="operation-animation"></p>
-            <input type="number" id="nextNumber" placeholder="Enter number">
-            <br>
-            <button onclick="playGame()">Submit</button>
-        </div>
-        <div id="game-over-screen" style="display:none;"></div>
-    </div>
-
     <script>
-        let num1, num2, currentResult, gameOver = false;
+        // Set up the scene, camera, and renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
 
-        function startGame() {
-            // Get initial numbers
-            num1 = parseFloat(document.getElementById("num1").value);
-            num2 = parseFloat(document.getElementById("num2").value);
+        // Create a simple car (just a box for now)
+        const carGeometry = new THREE.BoxGeometry(1, 0.5, 2);  // Width, Height, Length
+        const carMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        const car = new THREE.Mesh(carGeometry, carMaterial);
+        scene.add(car);
 
-            // Check if valid numbers are entered
-            if (isNaN(num1) || isNaN(num2) || num1 <= 0 || num2 <= 0) {
-                alert("Please enter valid numbers larger than 0!");
-                return;
-            }
+        // Set up the environment (simple ground plane)
+        const planeGeometry = new THREE.PlaneGeometry(100, 100);
+        const planeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
+        const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+        plane.rotation.x = - Math.PI / 2;
+        scene.add(plane);
 
-            // Hide start screen and show game play
-            document.getElementById("start-game").style.display = "none";
-            document.getElementById("game-play").style.display = "block";
+        // Set up the camera position
+        camera.position.z = 5;
 
-            // Start game with first operation
-            generateRandomOperation(num1, num2);
+        // Movement variables
+        let carSpeed = 0;
+        let carRotation = 0;
+
+        // Key press listeners for controlling the car
+        let keyState = { up: false, down: false, left: false, right: false };
+
+        window.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowUp') keyState.up = true;
+            if (event.key === 'ArrowDown') keyState.down = true;
+            if (event.key === 'ArrowLeft') keyState.left = true;
+            if (event.key === 'ArrowRight') keyState.right = true;
+        });
+
+        window.addEventListener('keyup', (event) => {
+            if (event.key === 'ArrowUp') keyState.up = false;
+            if (event.key === 'ArrowDown') keyState.down = false;
+            if (event.key === 'ArrowLeft') keyState.left = false;
+            if (event.key === 'ArrowRight') keyState.right = false;
+        });
+
+        // Update function to control movement and animation
+        function update() {
+            if (keyState.up) carSpeed = 0.1;
+            if (keyState.down) carSpeed = -0.1;
+            if (!keyState.up && !keyState.down) carSpeed = 0;
+
+            if (keyState.left) carRotation += 0.05;
+            if (keyState.right) carRotation -= 0.05;
+
+            car.position.z += carSpeed;
+            car.rotation.y = carRotation;
+
+            // Rendering the scene
+            renderer.render(scene, camera);
+
+            // Recursively call update function
+            requestAnimationFrame(update);
         }
 
-        function generateRandomOperation(num1, num2) {
-            // Randomly choose an operation
-            const operations = ['+', '-', '*', '/'];
-            const randomOperation = operations[Math.floor(Math.random() * operations.length)];
+        // Start the game
+        update();
 
-            let product;
-            let resultText = `Operation: ${num1} ${randomOperation} ${num2} = `;
-
-            // Perform the operation
-            switch (randomOperation) {
-                case '+':
-                    product = num1 + num2;
-                    break;
-                case '-':
-                    product = num1 - num2;
-                    break;
-                case '*':
-                    product = num1 * num2;
-                    break;
-                case '/':
-                    // For division, round the result to the nearest whole number
-                    if (num2 === 0) {
-                        product = NaN;  // Handle division by zero
-                    } else {
-                        product = num1 / num2;
-                        // If the result has decimals, round it to the nearest integer
-                        if (product % 1 !== 0) {
-                            product = Math.round(product);
-                        }
-                    }
-                    break;
-            }
-
-            // Show operation animation
-            document.getElementById("operation-animation").innerText = `Calculating... ${randomOperation}`;
-            document.getElementById("operation-animation").style.display = "block";
-            
-            setTimeout(function() {
-                // Hide animation and display the result
-                document.getElementById("operation-animation").style.display = "none";
-                currentResult = product;
-
-                // Check if result is <= 0 or invalid, trigger game over
-                if (currentResult <= 0 || isNaN(currentResult) || currentResult === Infinity) {
-                    gameOver = true;
-                    gameOverScreen();
-                } else {
-                    document.getElementById("question").innerText = `${resultText}${product}. Enter another number:`;
-                    document.getElementById("nextNumber").value = '';  // Clear input field
-                }
-            }, 1000); // Display the animation for 1 second before showing the result
-        }
-
-        function playGame() {
-            if (gameOver) return;  // Prevent playing after game over
-
-            const nextNumber = parseFloat(document.getElementById("nextNumber").value);
-
-            // Check if valid number is entered (no negative numbers, NaN, irrational fractions)
-            if (isNaN(nextNumber) || nextNumber <= 0 || !Number.isInteger(nextNumber)) {
-                gameOver = true;
-                gameOverScreen();
-                return;
-            }
-
-            // Use the current result as the first number and the entered number as the second
-            num1 = currentResult; // Use the previous result as the first number
-            num2 = nextNumber; // Use the new input as the second number
-
-            // Generate a new random operation with updated numbers
-            generateRandomOperation(num1, num2);
-        }
-
-        function gameOverScreen() {
-            // Hide the game play area and show game over message
-            document.getElementById("game-play").style.display = "none";
-            document.getElementById("game-over-screen").style.display = "block";
-            document.getElementById("game-over-screen").innerText = `bruh gimme whole numbers larger than 0. Final result: ${currentResult}`;
-        }
+        // Handle window resizing
+        window.addEventListener('resize', () => {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+        });
     </script>
 </body>
 </html>
