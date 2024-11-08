@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator Roulette</title>
+    <title>Calculator Game</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -150,8 +150,8 @@
             }
 
             // Use the current result as the first number and the entered number as the second
-            num1 = currentResult;
-            num2 = nextNumber;
+            num1 = currentResult; // Use the previous result as the first number
+            num2 = nextNumber; // Use the new input as the second number
 
             // Generate a new random operation with updated numbers
             generateRandomOperation(num1, num2);
