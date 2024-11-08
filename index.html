@@ -3,87 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Car Game</title>
+    <title>Weather in Berlin</title>
     <style>
-        body { margin: 0; overflow: hidden; }
-        canvas { display: block; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .date {
+            font-size: 18px;
+            color: #666;
+        }
+        .weather-info {
+            margin-top: 20px;
+        }
+        .temperature {
+            font-size: 48px;
+            color: #ff7f50;
+        }
+        .description {
+            font-size: 24px;
+            color: #333;
+        }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
+    <div class="container">
+        <h1>Weather Information for Berlin, Germany</h1>
+        <p class="date" id="current-date"></p>
+
+        <div class="weather-info">
+            <h2>Current Weather:</h2>
+            <p class="temperature" id="temperature">Loading...</p>
+            <p class="description" id="weather-description">Please wait...</p>
+        </div>
+    </div>
+
     <script>
-        // Set up the scene, camera, and renderer
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+        // OpenWeatherMap API Key
+        const apiKey = 'YOUR_API_KEY';  // Replace with your API key
+        const city = 'Berlin,de';
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-        // Create a simple car (just a box for now)
-        const carGeometry = new THREE.BoxGeometry(1, 0.5, 2);  // Width, Height, Length
-        const carMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-        const car = new THREE.Mesh(carGeometry, carMaterial);
-        scene.add(car);
-
-        // Set up the environment (simple ground plane)
-        const planeGeometry = new THREE.PlaneGeometry(100, 100);
-        const planeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
-        const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-        plane.rotation.x = - Math.PI / 2;
-        scene.add(plane);
-
-        // Set up the camera position
-        camera.position.z = 5;
-
-        // Movement variables
-        let carSpeed = 0;
-        let carRotation = 0;
-
-        // Key press listeners for controlling the car
-        let keyState = { up: false, down: false, left: false, right: false };
-
-        window.addEventListener('keydown', (event) => {
-            if (event.key === 'ArrowUp') keyState.up = true;
-            if (event.key === 'ArrowDown') keyState.down = true;
-            if (event.key === 'ArrowLeft') keyState.left = true;
-            if (event.key === 'ArrowRight') keyState.right = true;
-        });
-
-        window.addEventListener('keyup', (event) => {
-            if (event.key === 'ArrowUp') keyState.up = false;
-            if (event.key === 'ArrowDown') keyState.down = false;
-            if (event.key === 'ArrowLeft') keyState.left = false;
-            if (event.key === 'ArrowRight') keyState.right = false;
-        });
-
-        // Update function to control movement and animation
-        function update() {
-            if (keyState.up) carSpeed = 0.1;
-            if (keyState.down) carSpeed = -0.1;
-            if (!keyState.up && !keyState.down) carSpeed = 0;
-
-            if (keyState.left) carRotation += 0.05;
-            if (keyState.right) carRotation -= 0.05;
-
-            car.position.z += carSpeed;
-            car.rotation.y = carRotation;
-
-            // Rendering the scene
-            renderer.render(scene, camera);
-
-            // Recursively call update function
-            requestAnimationFrame(update);
+        // Function to fetch the weather data
+        function fetchWeather() {
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const temperature = data.main.temp;
+                    const description = data.weather[0].description;
+                    document.getElementById('temperature').textContent = `${temperature}°C`;
+                    document.getElementById('weather-description').textContent = description.charAt(0).toUpperCase() + description.slice(1);
+                })
+                .catch(error => {
+                    document.getElementById('temperature').textContent = 'Error fetching data';
+                    document.getElementById('weather-description').textContent = 'Please try again later';
+                    console.error('Error fetching weather data:', error);
+                });
         }
 
-        // Start the game
-        update();
+        // Function to display the current date
+        function displayDate() {
+            const today = new Date();
+            const dateString = today.toLocaleDateString('en-GB', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            });
+            document.getElementById('current-date').textContent = `Today: ${dateString}`;
+        }
 
-        // Handle window resizing
-        window.addEventListener('resize', () => {
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-        });
+        // Initialize the page
+        fetchWeather();
+        displayDate();
     </script>
 </body>
 </html>
