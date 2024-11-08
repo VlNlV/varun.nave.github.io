@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Addition Calculator</title>
+    <title>Calculator Game</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,17 +15,17 @@
             background-color: #f4f4f9;
         }
 
-        .calculator {
+        .game-container {
             padding: 20px;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 250px;
+            width: 300px;
             text-align: center;
         }
 
         input {
-            width: 60px;
+            width: 100px;
             padding: 10px;
             margin: 5px;
             font-size: 16px;
@@ -41,7 +41,7 @@
             cursor: pointer;
             background-color: #4CAF50;
             color: white;
-            margin: 5px;
+            margin: 10px;
         }
 
         button:hover {
@@ -51,32 +51,112 @@
         #result {
             font-size: 24px;
             font-weight: bold;
-            margin-top: 10px;
+            margin-top: 20px;
+        }
+
+        #game-over {
+            font-size: 24px;
+            color: red;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="calculator">
-        <h2>Simple Addition</h2>
-        <input type="number" id="num1" placeholder="0">
-        +
-        <input type="number" id="num2" placeholder="0">
-        <br>
-        <button onclick="calculate()">Add</button>
-        <div id="result"></div>
+    <div class="game-container">
+        <h2>Calculator Game</h2>
+        <div id="start-game">
+            <p>Enter two numbers:</p>
+            <input type="number" id="num1" placeholder="Number 1">
+            <input type="number" id="num2" placeholder="Number 2">
+            <br>
+            <button onclick="startGame()">Start Game</button>
+        </div>
+        <div id="game-play" style="display:none;">
+            <p id="question">Starting game...</p>
+            <input type="number" id="nextNumber" placeholder="Enter number">
+            <br>
+            <button onclick="playGame()">Submit</button>
+        </div>
+        <div id="game-over" style="display:none;"></div>
     </div>
 
     <script>
-        function calculate() {
-            // Get values from input fields
-            var num1 = parseFloat(document.getElementById("num1").value);
-            var num2 = parseFloat(document.getElementById("num2").value);
+        let num1, num2, currentResult, gameOver = false;
 
-            // Perform addition
-            var sum = num1 + num2;
+        function startGame() {
+            // Get initial numbers
+            num1 = parseFloat(document.getElementById("num1").value);
+            num2 = parseFloat(document.getElementById("num2").value);
 
-            // Display result
-            document.getElementById("result").innerHTML = "Result: " + sum;
+            // Check if valid numbers are entered
+            if (isNaN(num1) || isNaN(num2)) {
+                alert("Please enter valid numbers!");
+                return;
+            }
+
+            // Hide start screen and show game play
+            document.getElementById("start-game").style.display = "none";
+            document.getElementById("game-play").style.display = "block";
+
+            // Start game with first operation
+            generateRandomOperation(num1, num2);
+        }
+
+        function generateRandomOperation(num1, num2) {
+            // Randomly choose an operation
+            const operations = ['+', '-', '*', '/'];
+            const randomOperation = operations[Math.floor(Math.random() * operations.length)];
+
+            let product;
+            switch (randomOperation) {
+                case '+':
+                    product = num1 + num2;
+                    break;
+                case '-':
+                    product = num1 - num2;
+                    break;
+                case '*':
+                    product = num1 * num2;
+                    break;
+                case '/':
+                    product = num1 / num2;
+                    break;
+            }
+
+            // Show operation and result
+            currentResult = product;
+            document.getElementById("question").innerText = `Operation: ${num1} ${randomOperation} ${num2} = ${product}. Enter another number:`;
+
+            // Check if result is <= 0 (Game Over condition)
+            if (currentResult <= 0) {
+                gameOver = true;
+                gameOverScreen();
+            }
+        }
+
+        function playGame() {
+            if (gameOver) return;  // Prevent playing after game over
+
+            const nextNumber = parseFloat(document.getElementById("nextNumber").value);
+
+            // Check if valid number is entered
+            if (isNaN(nextNumber)) {
+                alert("Please enter a valid number!");
+                return;
+            }
+
+            // Update num1 or num2 based on current result
+            num2 = nextNumber;
+
+            // Generate a new random operation with updated numbers
+            generateRandomOperation(num1, num2);
+        }
+
+        function gameOverScreen() {
+            // Hide the game play area and show game over message
+            document.getElementById("game-play").style.display = "none";
+            document.getElementById("game-over").style.display = "block";
+            document.getElementById("game-over").innerText = `Game Over! Your final result was: ${currentResult}`;
         }
     </script>
 </body>
