@@ -14,18 +14,19 @@
             height: 100vh;
         }
         .gif-container {
-            flex: 1; /* Makes each gif take up 50% of the screen height */
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
+            width: 100%;  /* Ensure the containers stretch across the full width */
         }
         img {
-            max-width: 100%;
-            height: auto;
-            max-height: 45vh;  /* Set height to 45% of the viewport height */
+            width: 100%;    /* Stretch GIF to take the full width of the screen */
+            height: auto;   /* Maintain aspect ratio */
+            max-height: 45vh; /* Limit height to 45% of the screen height */
         }
         .margin {
-            height: 30px;  /* Black margin of 30px */
+            height: 30px;   /* Black margin of 30px */
             background-color: black;
         }
     </style>
