@@ -11,21 +11,34 @@
             background-color: black;
             display: flex;
             flex-direction: column;
+            height: 100vh;
+        }
+        .gif-container {
+            flex: 1; /* Makes each gif take up 50% of the screen height */
+            display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
         }
         img {
-            max-width: 95%;    /* Limit width to 90% of the screen width */
-            height: auto;     /* Maintain aspect ratio */
-            max-height: 80vh;  /* Limit height to 50% of the screen height */
-            margin: 10px 0;
+            max-width: 100%;
+            height: auto;
+            max-height: 45vh;  /* Set height to 45% of the viewport height */
+        }
+        .margin {
+            height: 30px;  /* Black margin of 30px */
+            background-color: black;
         }
     </style>
 </head>
 <body>
-    <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmt6NGk1eXo2bzRsd2FzenVuNDZndXB4cXJ5emdteTdmZHkxdHBoaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DLXpRiR7xSXT2/giphy-downsized-large.gif" alt="Funny GIF">
-    <img src="https://media.giphy.com/media/rUxSaLgjcQbLO/giphy.gif" alt="Bee Movie GIF">
+    <div class="gif-container">
+        <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmt6NGk1eXo2bzRsd2FzenVuNDZndXB4cXJ5emdteTdmZHkxdHBoaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DLXpRiR7xSXT2/giphy-downsized-large.gif" alt="Funny GIF">
+    </div>
+    
+    <div class="margin"></div>  <!-- Black margin in between -->
+    
+    <div class="gif-container">
+        <img src="https://media.giphy.com/media/rUxSaLgjcQbLO/giphy.gif" alt="Bee Movie GIF">
+    </div>
 </body>
 </html>
