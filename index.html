@@ -6,26 +6,25 @@
     <title>GIF Showcase</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
+            height: 100vh;
+            overflow: hidden;
         }
-        .gif-container {
-            display: flex;
-            gap: 20px;
-        }
-        .gif-container img {
-            width: 600px;
+        img {
+            width: 100%;
             height: auto;
+            margin: 20px 0;
         }
     </style>
 </head>
 <body>
-    <div class="gif-container">
-        <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmt6NGk1eXo2bzRsd2FzenVuNDZndXB4cXJ5emdteTdmZHkxdHBoaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DLXpRiR7xSXT2/giphy-downsized-large.gif" alt="Funny GIF">
-    </div>
+    <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmt6NGk1eXo2bzRsd2FzenVuNDZndXB4cXJ5emdteTdmZHkxdHBoaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DLXpRiR7xSXT2/giphy-downsized-large.gif" alt="Funny GIF">
+    <img src="https://media.giphy.com/media/rUxSaLgjcQbLO/giphy.gif" alt="Bee Movie GIF">
 </body>
 </html>
