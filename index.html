@@ -3,109 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive World Map with Clock</title>
+    <title>GIF Showcase</title>
     <style>
-        /* Body style */
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f4f4f4;
-        }
-
-        /* Map container */
-        #map-container {
-            width: 100%;
-            height: 80vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
         }
-
-        /* World map SVG */
-        svg {
-            width: 100%;
-            height: 100%;
-            border: 2px solid black;
+        .gif-container {
+            display: flex;
+            gap: 20px;
         }
-
-        /* Hover effect on country */
-        path {
-            fill: green;
-            stroke: #fff;
-            stroke-width: 0.5;
-            transition: fill 0.3s ease;
-        }
-
-        path:hover {
-            fill: red;
-        }
-
-        /* Clock container */
-        #clock {
-            font-size: 30px;
-            margin: 20px;
-            padding: 10px;
-            background-color: #333;
-            color: white;
-            border-radius: 10px;
-            font-weight: bold;
-        }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
-            #clock {
-                font-size: 24px;
-            }
+        .gif-container img {
+            width: 600px;
+            height: auto;
         }
     </style>
 </head>
 <body>
-    <div id="clock">Loading Time...</div>
-    <div id="map-container">
-        <!-- The World Map SVG goes here (You can use an online source or an SVG file) -->
-        <svg id="world-map" viewBox="0 0 1024 512" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-            <!-- Example paths for countries, replace these with a detailed world map's paths -->
-            <path id="US" d="M100,100 L200,100 L200,200 L100,200 Z" />
-            <path id="CA" d="M100,50 L200,50 L200,100 L100,100 Z" />
-            <path id="BR" d="M300,200 L400,200 L400,300 L300,300 Z" />
-            <!-- Add more country paths here -->
-        </svg>
+    <div class="gif-container">
+        <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmt6NGk1eXo2bzRsd2FzenVuNDZndXB4cXJ5emdteTdmZHkxdHBoaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DLXpRiR7xSXT2/giphy-downsized-large.gif" alt="Funny GIF">
     </div>
-
-    <script>
-        // Function to update clock
-        function updateClock() {
-            const clockElement = document.getElementById('clock');
-            const now = new Date();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const seconds = now.getSeconds().toString().padStart(2, '0');
-            clockElement.textContent = `${hours}:${minutes}:${seconds}`;
-        }
-
-        // Call updateClock every second
-        setInterval(updateClock, 1000);
-
-        // Trigger clock immediately once
-        updateClock();
-
-        // Adding hover effect functionality to highlight countries
-        const countries = document.querySelectorAll('path');
-        
-        countries.forEach(country => {
-            country.addEventListener('mouseover', () => {
-                country.style.fill = 'red';
-            });
-
-            country.addEventListener('mouseout', () => {
-                country.style.fill = 'green';
-            });
-        });
-    </script>
 </body>
 </html>
